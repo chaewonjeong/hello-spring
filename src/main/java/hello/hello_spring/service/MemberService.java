@@ -27,9 +27,19 @@ public class MemberService {
     @Transactional
     public Long join(Member member) {
         // 같은 이름이 있는 중복 회원x
-        validateDuplicateMember(member);
-        memberRepository.save(member);
-        return member.getId();
+
+        long start = System.currentTimeMillis();
+
+        try {
+            validateDuplicateMember(member);
+            memberRepository.save(member);
+            return member.getId();
+        } finally {
+            long finsh = System.currentTimeMillis();
+            long timeMs = finsh - start;
+            System.out.println("join" + timeMs +"timeMs: ");
+        }
+
     }
 
     private void validateDuplicateMember(Member member) {

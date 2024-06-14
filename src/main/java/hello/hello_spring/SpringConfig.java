@@ -20,22 +20,44 @@ public class SpringConfig {
 //        this.dataSource = dataSource;
 //    }
 
-    private EntityManager em;
+//    private EntityManager em;
+//
+//    @Autowired
+//    public SpringConfig(EntityManager em) {
+//        this.em = em;
+//    }
+
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public SpringConfig(EntityManager em) {
-        this.em = em;
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     @Bean
     public MemberService memberService() {
-        return new MemberService(memoryMemberRepository());
+        return new MemberService(memberRepository);
     }
 
-    @Bean
-    public MemberRepository memoryMemberRepository() {
-        //return new JdbcMemberRepository(dataSource);
-        //return new JdbcTemplateMemberRepository(dataSource);
-        return new JpaMemberRepository(em);
-    }
+//    @Bean
+//    public MemberRepository memoryMemberRepository() {
+//        /**
+//         * 순수 jdbc
+//         */
+//        //return new JdbcMemberRepository(dataSource);
+//
+//        /**
+//         * jdbc template
+//         */
+//        //return new JdbcTemplateMemberRepository(dataSource);
+//
+//        /**
+//         * jpa
+//         */
+//        //return new JpaMemberRepository(em);
+//
+//        /**
+//         * 스프링 데이터 jpa
+//         */
+//    }
 }
